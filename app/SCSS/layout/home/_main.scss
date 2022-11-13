@@ -52,6 +52,14 @@
         display: flex;
       }
 
+      &__buttontool {
+        stroke: rgba(255, 255, 255, 0.5);
+
+        &:hover {
+          stroke: white;
+        }
+      }
+
       input {
         background-color: transparent;
         height: 100%;
@@ -63,6 +71,12 @@
 
         &::placeholder {
           font-weight: 500;
+          color: rgba(255, 255, 255, 0.5);
+        }
+
+        &:focus-within,
+        &:focus-visible {
+          outline: none;
         }
       }
     }
