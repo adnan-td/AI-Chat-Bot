@@ -10,7 +10,9 @@ export default function Toolbar() {
     setMessage("");
   }
   return (
-    <div className={styles["mainbox__topdiv"] + " " + styles["mainbox__bottomdiv"]}>
+    <div
+      className={styles["mainbox__topdiv"] + " " + styles["mainbox__bottomdiv"]}
+    >
       <div className={styles["mainbox__topdiv__left"]}>
         <button>
           <img src="/action-button/attach.svg" alt="loading" />
@@ -21,6 +23,11 @@ export default function Toolbar() {
           value={message}
           onChange={(e) => {
             setMessage(e.target.value);
+          }}
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              handleMessage();
+            }
           }}
         />
       </div>
