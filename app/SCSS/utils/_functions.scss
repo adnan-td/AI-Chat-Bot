@@ -1,0 +1,27 @@
+@use "sass:math";
+
+// Pixel Convertor
+
+@function rem($pixel) {
+  // If pixel doesn't have a unit then divide pixel by 16 to return rem
+  @if math.is-unitless($pixel) {
+    @return math.div($pixel, 16) + rem;
+  }
+
+  // Otherwise (else) return an error
+  @else {
+    @error 'Don\'t use units when using the rem() functions; Only number is to be used';
+  }
+}
+
+@function em($pixel) {
+  // If pixel doesn't have a unit then divide pixel by 16 to return em
+  @if math.is-unitless($pixel) {
+    @return math.div($pixel, 16) + em;
+  }
+
+  // Otherwise (else) return an error
+  @else {
+    @error 'Don\'t use units when using the em() functions; Only number is to be used';
+  }
+}

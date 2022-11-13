@@ -1,0 +1,92 @@
+@use "../../globals/" as g;
+@use "../../utils/" as u;
+
+.mainbox {
+  width: min(100%, 1920px);
+  height: 100%;
+  background-color: g.$bg;
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.15);
+  @include u.flexbox(column, space-between, 0);
+  margin: 0 auto;
+  position: relative;
+
+  &__topdiv {
+    width: 100%;
+    @include u.flexbox(row, space-between, 1rem);
+    padding: 1rem;
+    background-color: g.$bg-light;
+    position: fixed;
+    left: 0;
+
+    &__left {
+      @include u.flexbox(row, flex-start, 1rem);
+      width: 100%;
+
+      &__imgmod {
+        width: u.rem(36);
+        background-size: cover;
+        height: u.rem(36);
+        background-repeat: no-repeat;
+        border-radius: u.rem(4);
+      }
+
+      p {
+        color: white;
+        font-weight: 500;
+
+        &:nth-child(2) {
+          font-size: u.rem(14);
+          color: rgba(255, 255, 255, 0.5);
+        }
+      }
+
+      button {
+        display: flex;
+      }
+
+      input {
+        background-color: transparent;
+        height: 100%;
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 0;
+        border: none;
+        color: white;
+        font-weight: 500;
+
+        &::placeholder {
+          font-weight: 500;
+        }
+      }
+    }
+
+    &__right {
+      position: relative;
+
+      &__absolute {
+        position: absolute;
+        right: 1rem;
+        top: 2rem;
+        width: u.rem(200);
+        border-radius: u.rem(4);
+        box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.25);
+        background-color: #275a91;
+        @include u.flexbox(column, center, 0);
+
+        button {
+          width: 100%;
+          color: white;
+          font-weight: 600;
+          padding: 1rem;
+
+          &:hover {
+            background-color: #2e77c5;
+          }
+        }
+      }
+    }
+  }
+
+  &__bottomdiv {
+    bottom: 0;
+  }
+}

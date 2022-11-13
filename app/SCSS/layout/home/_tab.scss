@@ -1,0 +1,26 @@
+@use "../../globals/" as g;
+@use "../../utils/" as u;
+
+.tabdiv {
+  width: 100vw;
+  max-width: u.rem(1920);
+  background-color: g.$bg-light;
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.15);
+  @include u.flexbox(row, space-between, 1rem);
+  margin-top: 1rem;
+  padding: 1rem 2rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #274664;
+  }
+
+  &__left {
+    @include u.flexbox(row, flex-start, 1rem);
+
+    p {
+      color: white;
+      font-weight: 600;
+    }
+  }
+}
