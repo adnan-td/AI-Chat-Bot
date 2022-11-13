@@ -2,7 +2,7 @@
 @use "../../utils/" as u;
 
 .chatwrap {
-  padding: 6rem 1rem;
+  padding: 1rem;
   width: 100%;
   @include u.flexbox(column, center, 2rem);
   &__user {
@@ -35,6 +35,8 @@
         color: rgb(255 255 255 / 80%);
         font-size: u.rem(14);
         line-height: u.rem(24);
+        text-align: start;
+        width: 100%;
       }
 
       &__scriptimg {

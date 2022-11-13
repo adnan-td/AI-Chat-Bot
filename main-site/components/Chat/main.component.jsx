@@ -24,7 +24,9 @@ export default function MainSec() {
   return (
     <div className={styles["mainbox"]}>
       <NavbarBot site={data[0].site} img={data[0].img} />
-      <ChatWrapper />
+      <div className={styles["mainbox__wrapper"]}>
+        <ChatWrapper />
+      </div>
       <Toolbar />
     </div>
   );

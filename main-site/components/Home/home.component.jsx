@@ -30,9 +30,11 @@ export default function HomeSec() {
       }}
     >
       <NavbarHome />
-      {data.map((tabdata) => {
-        return <Tab key={data.id} {...tabdata} />;
-      })}
+      <div className={styles["mainbox__wrapper"]}>
+        {data.map((tabdata) => {
+          return <Tab key={data.id} {...tabdata} />;
+        })}
+      </div>
     </div>
   );
 }
