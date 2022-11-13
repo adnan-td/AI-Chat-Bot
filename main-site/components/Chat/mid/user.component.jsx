@@ -33,7 +33,7 @@ export default function UserMessage({ text, time, button, from }) {
       id: "3",
     },
     {
-      img: "https://mir-s3-cdn-cf.behance.net/user/115/4e831d1148810279.61b65ad16771e.jpg",
+      img: "https://scripthome.org/default-avatars/10.jpg",
       site: "Sudhanshu Prasad",
       id: "4",
     },
