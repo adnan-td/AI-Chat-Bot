@@ -2,13 +2,21 @@
 @use "../../utils/" as u;
 
 .mainbox {
-  width: min(100%, 1920px);
-  height: 100%;
+  width: min(100vw, 1920px);
   background-color: g.$bg;
   box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.15);
-  @include u.flexbox(column, space-between, 0);
+  @include u.flexbox(column, flex-start, 0);
   margin: 0 auto;
   position: relative;
+  height: 100vh;
+
+  &__wrapper {
+    width: 100%;
+    padding: 5rem 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+  }
 
   &__topdiv {
     width: 100%;

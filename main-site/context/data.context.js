@@ -18,7 +18,11 @@ export const BotData = ({ children }) => {
 
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([
-    { from: "bot", text: "Hello, Let's get Started", time: new Date() },
+    {
+      from: "bot",
+      text: "Hello, Let's get Started. You can either upload scripts or search scripts here.",
+      time: new Date(),
+    },
   ]);
   const [refreshScripts, setRefreshScripts] = useState(false);
 
