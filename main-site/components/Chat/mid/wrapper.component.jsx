@@ -23,11 +23,14 @@ export default function ChatWrapper() {
   const { chat: data } = useContext(BotContext);
 
   useEffect(() => {
-    window.scrollTo(0, document.body.scrollHeight + 100);
+    document
+      .querySelector("#main-wrapper")
+      .scroll(0, document.querySelector("#chatwrap").clientHeight);
+    console.log(document.querySelector("#chatwrap").clientHeight);
   }, [data]);
 
   return (
-    <div className={styles["chatwrap"]}>
+    <div className={styles["chatwrap"]} id="chatwrap">
       {data.map((item, id) => {
         return <UserMessage from={item.from} text={item.text} time={item.time} key={id} />;
       })}
