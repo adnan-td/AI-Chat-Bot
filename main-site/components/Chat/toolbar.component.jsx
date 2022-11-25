@@ -6,7 +6,7 @@ import { BotContext } from "../../context/data.context";
 export default function Toolbar() {
   const { message, setMessage, chat, setChat } = useContext(BotContext);
   function handleMessage() {
-    setChat([...chat, { from: "user", text: message, time: new Date() }]);
+    setChat([...chat, { from: "user", text: message, time: new Date(), trigger: chat.length + 1 }]);
     setMessage("");
   }
   return (

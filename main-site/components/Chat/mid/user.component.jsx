@@ -75,11 +75,15 @@ export default function UserMessage({ text, time, button, from }) {
         {/* <div className={styles["chatwrap__user__wrapper__scriptimg"]}>
           <img src={scriptimg} alt="loading" />
         </div> */}
-        <p className={styles["chatwrap__user__wrapper__message"]}>{text}</p>
+        <pre className={styles["chatwrap__user__wrapper__message"]}>{text}</pre>
       </div>
       <div className={buttonmod}>
-        {button?.map((buttontext, id) => {
-          return <Button key={id} {...buttontext} />;
+        {button?.map((bt, id) => {
+          return (
+            <button key={id} onClick={bt.handleClick}>
+              {bt.value}
+            </button>
+          );
         })}
       </div>
     </div>
