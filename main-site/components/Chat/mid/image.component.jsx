@@ -72,19 +72,9 @@ export default function UserMessage({ text, time, button, from }) {
             <p>{formatAMPM(time)}</p>
           </div>
         </div>
-        {/* <div className={styles["chatwrap__user__wrapper__scriptimg"]}>
+        <div className={styles["chatwrap__user__wrapper__scriptimg"]}>
           <img src={scriptimg} alt="loading" />
-        </div> */}
-        <pre className={styles["chatwrap__user__wrapper__message"]}>{text}</pre>
-      </div>
-      <div className={buttonmod}>
-        {button?.map((bt, id) => {
-          return (
-            <button key={id} onClick={bt.handleClick}>
-              {bt.value}
-            </button>
-          );
-        })}
+        </div>
       </div>
     </div>
   );
