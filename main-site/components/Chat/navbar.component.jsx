@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import styles from "../../../app/SCSS/style.module.scss";
+import Router from "next/router";
 
 export default function NavbarBot({ site, img }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +46,13 @@ export default function NavbarBot({ site, img }) {
         {isOpen ? (
           <div className={styles["mainbox__topdiv__right__absolute"]} ref={ref}>
             <button>Search Scripts</button>
-            <button>Restart Bot</button>
+            <button
+              onClick={() => {
+                Router.reload();
+              }}
+            >
+              Restart Bot
+            </button>
           </div>
         ) : null}
       </div>
