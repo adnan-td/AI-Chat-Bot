@@ -14,7 +14,7 @@ export default function ChatWrapper() {
 
   return (
     <div className={styles["chatwrap"]} id="chatwrap">
-      {data.map((item, id) => {
+      {data?.map((item, id) => {
         return (
           <UserMessage
             from={item.from}
@@ -22,6 +22,8 @@ export default function ChatWrapper() {
             time={item.time}
             key={id}
             button={item.button}
+            imgUp={item.imgup}
+            imgShow={item.img}
           />
         );
       })}

@@ -3,27 +3,38 @@ import { useState, createContext, useEffect } from "react";
 export const BotContext = createContext({ scripts: null });
 
 export const BotData = ({ children }) => {
+  const [message, setMessage] = useState("");
+  const [chat, setChat] = useState([
+    {
+      from: "bot",
+      text: "Hello, Let's get Started. You can either upload scripts or search scripts here.",
+      time: new Date(),
+      trigger: 1,
+      button: [
+        {
+          value: "Upload",
+          handleClick: () => {
+            addUserMessage("/upload");
+          },
+        },
+        {
+          value: "Help",
+          handleClick: () => {
+            addUserMessage("/help");
+          },
+        },
+        {
+          value: "Search Scripts",
+          handleClick: () => {
+            addUserMessage("/search");
+          },
+        },
+      ],
+    },
+  ]);
+  const [refreshScripts, setRefreshScripts] = useState(false);
+
   const buttons = {
-    start: [
-      {
-        value: "Start",
-        handleClick: () => {
-          setMessage("/start");
-        },
-      },
-      {
-        value: "Help",
-        handleClick: () => {
-          setMessage("/help");
-        },
-      },
-      {
-        value: "Search Scripts",
-        handleClick: () => {
-          setMessage("/search");
-        },
-      },
-    ],
     editButtons: [
       {
         value: "Edit Title",
@@ -86,39 +97,71 @@ export const BotData = ({ children }) => {
         },
       },
       {
-        value: "Edit Image",
+        value: "Upload Image",
         handleClick: () => {
-          setMessage("11. ");
-        },
-      },
-    ],
-    help: [
-      {
-        value: "Start",
-        handleClick: () => {
-          setMessage("/start");
+          addBotMessageImgUp();
         },
       },
       {
         value: "View",
         handleClick: () => {
-          setMessage("/view");
+          addUserMessage("/view");
+        },
+      },
+    ],
+    help: [
+      {
+        value: "Upload",
+        handleClick: () => {
+          addUserMessage("/upload");
+        },
+      },
+      {
+        value: "View",
+        handleClick: () => {
+          addUserMessage("/view");
         },
       },
       {
         value: "Post",
         handleClick: () => {
-          setMessage("/post");
+          addUserMessage("/post");
         },
       },
       {
         value: "Search",
         handleClick: () => {
-          setMessage("/search");
+          addUserMessage("/search");
         },
       },
     ],
   };
+
+  function addBotMessage(text) {
+    // setChat([...chat, { from: "bot", text: text, time: new Date(), trigger: chat.length + 1 }]);
+    setMessage(text);
+    setChat((ch) => [
+      ...ch,
+      { from: "bot", text: text, time: new Date(), trigger: chat.length + 1 },
+    ]);
+  }
+
+  function addBotMessageImgUp() {
+    setChat([
+      ...chat,
+      { from: "bot", text: "", time: new Date(), trigger: chat.length + 1, imgup: true },
+    ]);
+  }
+
+  function addUserMessage(text) {
+    // console.log(chat);
+    // setChat([...chat, { from: "user", text: text, time: new Date(), trigger: chat.length + 1 }]);
+    setMessage(text);
+    setChat((ch) => [
+      ...ch,
+      { from: "user", text: text, time: new Date(), trigger: chat.length + 1 },
+    ]);
+  }
 
   const [script, setScript] = useState({
     img: "",
@@ -133,29 +176,8 @@ export const BotData = ({ children }) => {
     user_id: "",
   });
 
-  const [message, setMessage] = useState("");
-  const [chat, setChat] = useState([
-    {
-      from: "bot",
-      text: "Hello, Let's get Started. You can either upload scripts or search scripts here.",
-      time: new Date(),
-      trigger: 1,
-      button: buttons.start,
-    },
-  ]);
-  const [refreshScripts, setRefreshScripts] = useState(false);
-
   useEffect(() => {
-    messageHandler(
-      chat.find((item) => {
-        return item.trigger === chat.length;
-      }),
-      chat,
-      setChat,
-      script,
-      setScript,
-      buttons
-    );
+    messageHandler(chat[chat.length - 1], chat, setChat, script, setScript, buttons);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chat]);
 
@@ -190,8 +212,15 @@ export const BotData = ({ children }) => {
 
 const messageHandler = async (message, chat, setChat, script, setScript, buttons) => {
   // console.log(message);
-  function addmessage(text) {
-    setChat([...chat, { from: "bot", text: text, time: new Date(), trigger: chat.length + 1 }]);
+  function addmessage(text, img) {
+    if (img) {
+      setChat([
+        ...chat,
+        { from: "bot", text: text, time: new Date(), trigger: chat.length + 1, img },
+      ]);
+    } else {
+      setChat([...chat, { from: "bot", text: text, time: new Date(), trigger: chat.length + 1 }]);
+    }
   }
 
   function addMessageWithButtons(text, buttons) {
@@ -211,18 +240,17 @@ const messageHandler = async (message, chat, setChat, script, setScript, buttons
     addMessageWithButtons(`Start uploading scripts by using the following commands:`, buttons.help);
   }
 
-  if (message.text === "/start") {
-    // addmessage(uploadMessage());
+  if (message.text === "/upload") {
     addMessageWithButtons(uploadMessage(), buttons.editButtons);
   }
 
   if (message.text === "/view") {
-    // addmessage(JSON.stringify(script, null, 4));
-    addmessage(viewScript(script));
+    addmessage(viewScript(script), script.img);
   }
 
   if (message.text === "/post") {
-    // postScript(script)
+    postData("https://scripthome.org/api/scripts", script);
+
     setScript({
       img: "",
       title: "",
@@ -331,3 +359,18 @@ const viewScript = (script) => {
   11. Image link - ${script.img}
 `;
 };
+
+async function postData(url = "", data = {}) {
+  const response = await fetch(url, {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    headers: {
+      "Content-Type": "application/json",
+    },
+    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data), // body data type must match "Content-Type" header
+  });
+  console.log(response);
+  return response.json(); // parses JSON response into native JavaScript objects
+}

@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import styles from "../../../../app/SCSS/style.module.scss";
-import Button from "./button.component";
+import ImgModal from "../../imgUpload/uploader";
 
-export default function UserMessage({ text, time, button, from }) {
+export default function UserMessage({ text, time, button, from, imgUp, imgShow }) {
   let styleshell = styles["chatwrap__user"];
   let buttonmod = styles["chatwrap__user__wrapper__button"];
 
@@ -12,9 +12,6 @@ export default function UserMessage({ text, time, button, from }) {
       " " +
       styles["chatwrap__user__wrapper__button__mod"];
   }
-
-  const scriptimg =
-    "https://images.unsplash.com/photo-1667251346425-9837bc20a266?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80";
 
   const data = [
     {
@@ -59,6 +56,10 @@ export default function UserMessage({ text, time, button, from }) {
     return strTime;
   }
 
+  if (imgUp) {
+    return (<ImgModal />)
+  }
+
   return (
     <div className={styleshell}>
       <div className={styles["chatwrap__user__wrapper"]}>
@@ -72,9 +73,13 @@ export default function UserMessage({ text, time, button, from }) {
             <p>{formatAMPM(time)}</p>
           </div>
         </div>
-        {/* <div className={styles["chatwrap__user__wrapper__scriptimg"]}>
-          <img src={scriptimg} alt="loading" />
-        </div> */}
+        {
+          imgShow ? (
+            <div className={styles["chatwrap__user__wrapper__scriptimg"]}>
+              <img src={imgShow} alt="loading" />
+            </div>
+          ) : null
+        }
         <pre className={styles["chatwrap__user__wrapper__message"]}>{text}</pre>
       </div>
       <div className={buttonmod}>
