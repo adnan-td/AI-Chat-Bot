@@ -93,7 +93,7 @@ export const BotData = ({ children }) => {
       {
         value: "Uploader user id",
         handleClick: () => {
-          setMessage("10. ");
+          setMessage("0. ");
         },
       },
       {
@@ -139,7 +139,6 @@ export const BotData = ({ children }) => {
 
   function addBotMessage(text) {
     // setChat([...chat, { from: "bot", text: text, time: new Date(), trigger: chat.length + 1 }]);
-    setMessage(text);
     setChat((ch) => [
       ...ch,
       { from: "bot", text: text, time: new Date(), trigger: chat.length + 1 },
@@ -156,7 +155,6 @@ export const BotData = ({ children }) => {
   function addUserMessage(text) {
     // console.log(chat);
     // setChat([...chat, { from: "user", text: text, time: new Date(), trigger: chat.length + 1 }]);
-    setMessage(text);
     setChat((ch) => [
       ...ch,
       { from: "user", text: text, time: new Date(), trigger: chat.length + 1 },
@@ -249,22 +247,29 @@ const messageHandler = async (message, chat, setChat, script, setScript, buttons
   }
 
   if (message.text === "/post") {
-    postData("https://scripthome.org/api/scripts", script);
-
-    setScript({
-      img: "",
-      title: "",
-      madeby: "",
-      gameLink: "",
-      gameCode: "",
-      youtubeLink: "",
-      features: "",
-      tags: "",
-      script_code: "",
-      description: "",
-      user_id: "",
+    // postData("https://scripthome.org/api/scripts", script);
+    postData("http://localhost:3000/api/postCors", script).then((res) => {
+      console.log(res);
+      if (res.message === "Added successfully") {
+        addmessage("Successfully Posted Script");
+      } else {
+        addmessage("Failed to upload! Please enter proper Script!");
+      }
     });
-    addmessage("Successfully Posted Script");
+
+    // setScript({
+    //   img: "",
+    //   title: "",
+    //   madeby: "",
+    //   gameLink: "",
+    //   gameCode: "",
+    //   youtubeLink: "",
+    //   features: "",
+    //   tags: "",
+    //   script_code: "",
+    //   description: "",
+    //   user_id: "",
+    // });
   }
 
   if (message.text[0] === "1") {
@@ -312,14 +317,9 @@ const messageHandler = async (message, chat, setChat, script, setScript, buttons
     addmessage("Description added!");
   }
 
-  if (message.text[0] === "10") {
+  if (message.text[0] === "0") {
     setScript({ ...script, user_id: message.text.slice(3) });
     addmessage("Uploader user id added!");
-  }
-
-  if (message.text[0] === "11") {
-    setScript({ ...script, img: message.text.slice(3) });
-    addmessage("Img Link added!");
   }
 };
 
@@ -361,16 +361,17 @@ const viewScript = (script) => {
 };
 
 async function postData(url = "", data = {}) {
+  console.log(url, data);
   const response = await fetch(url, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
-    mode: "cors", // no-cors, *cors, same-origin
-    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    // mode: "cors", // no-cors, *cors, same-origin
+    // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
     headers: {
       "Content-Type": "application/json",
     },
-    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    // referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
-  console.log(response);
+  console.log("responded");
   return response.json(); // parses JSON response into native JavaScript objects
 }

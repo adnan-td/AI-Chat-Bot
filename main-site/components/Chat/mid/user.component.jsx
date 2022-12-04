@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import styles from "../../../../app/SCSS/style.module.scss";
 import ImgModal from "../../imgUpload/uploader";
+const imghost = "https://files.scripthome.org";
 
 export default function UserMessage({ text, time, button, from, imgUp, imgShow }) {
   let styleshell = styles["chatwrap__user"];
@@ -57,7 +58,7 @@ export default function UserMessage({ text, time, button, from, imgUp, imgShow }
   }
 
   if (imgUp) {
-    return (<ImgModal />)
+    return <ImgModal />;
   }
 
   return (
@@ -73,13 +74,11 @@ export default function UserMessage({ text, time, button, from, imgUp, imgShow }
             <p>{formatAMPM(time)}</p>
           </div>
         </div>
-        {
-          imgShow ? (
-            <div className={styles["chatwrap__user__wrapper__scriptimg"]}>
-              <img src={imgShow} alt="loading" />
-            </div>
-          ) : null
-        }
+        {imgShow ? (
+          <div className={styles["chatwrap__user__wrapper__scriptimg"]}>
+            <img src={imghost + "/" + imgShow} alt="loading" />
+          </div>
+        ) : null}
         <pre className={styles["chatwrap__user__wrapper__message"]}>{text}</pre>
       </div>
       <div className={buttonmod}>

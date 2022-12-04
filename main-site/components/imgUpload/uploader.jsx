@@ -3,21 +3,21 @@ import styles from "./mc.module.scss";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { BotContext } from "../../context/data.context";
-const imghost = "https://files.scripthome.org"
+const imghost = "https://files.scripthome.org";
 
 const ImgModal = () => {
   const fileInputRef = useRef(null);
   const formRef = useRef(null);
-  const { chat, setChat, script, setScript } = useContext(BotContext)
+  const { chat, setChat, script, setScript } = useContext(BotContext);
 
   const onClickHandler = () => {
     fileInputRef.current.click();
   };
 
   const handleClose = () => {
-    chat.pop()
-    setChat([...chat])
-  }
+    chat.pop();
+    setChat([...chat]);
+  };
 
   const onChangeHandler = (event) => {
     if (event.target.files.length !== 1) {
@@ -38,7 +38,7 @@ const ImgModal = () => {
       try {
         const response = await axios.post(`${imghost}/request`, formData, config);
 
-        setScript({ ...script, img: `${imghost}/${response.data.img}` });
+        setScript({ ...script, img: `${response.data.img}` });
         toast.success("Image was Successfully Uploaded!");
         handleClose();
       } catch (e) {
